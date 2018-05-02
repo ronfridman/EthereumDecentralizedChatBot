@@ -1,6 +1,6 @@
 
 
-var contractTXID = '0x4dd4c0135071e7559a7cc63ad499382a6f859d2e';
+var contractTXID = '0xfb2287297a227b09a313ff19f9cbfd951837e72d';
 
 var contractABI = [
 	{
