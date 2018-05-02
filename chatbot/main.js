@@ -19,6 +19,11 @@ $("#chatChannelAddressButton").click(function() {
 
   loadMyRole();
   getParticipants();
+
+  setInterval(function() {
+    getParticipants() // method to be executed;
+  }, 5000);
+
 });
 
 // console.log(ChatBot);
@@ -195,7 +200,4 @@ function log(logData)
 }
 
 
-// setInterval(function() {
-//   getParticipants() // method to be executed;
-// }, 5000);
 
