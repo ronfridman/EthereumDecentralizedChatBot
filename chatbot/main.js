@@ -6,11 +6,21 @@ if (typeof web3 !== 'undefined') {
   web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 }
 
+
 web3.eth.defaultAccount = web3.eth.accounts[0];
 
-var ChatBotContract = web3.eth.contract(contractABI);
+var ChatBotContract;
+var ChatBot;
 
-var ChatBot = ChatBotContract.at(contractTXID);
+$("#chatChannelAddressButton").click(function() {
+  var contractTXID = $("#chatChannelAddress").val();
+  ChatBotContract = web3.eth.contract(contractABI);
+  ChatBot = ChatBotContract.at(contractTXID);
+
+  loadMyRole();
+  getParticipants();
+});
+
 // console.log(ChatBot);
 
 var myRole = 0;
@@ -30,19 +40,24 @@ function getColorForAddress(address)
     return 'black';
 }
 
-ChatBot.getRole(function(error,result){
-  if(!error)
-  {
-    myRole = readNumberFromBC(result);
-    myRoleName = getRoleNameById(myRole);
-    log('My Role: ' + myRoleName + '(' + myRole + ')');
-  }
-  else
-  {
-    console.error(error);
-  }
-});
 
+function loadMyRole()
+{
+
+  ChatBot.getRole(function(error,result){
+    if(!error)
+    {
+      myRole = readNumberFromBC(result);
+      myRoleName = getRoleNameById(myRole);
+      log('My Role: ' + myRoleName + '(' + myRole + ')');
+    }
+    else
+    {
+      console.error(error);
+    }
+  });
+
+}
 
 function readMessages()
 {
@@ -166,7 +181,7 @@ $("#sendMsgButton").click(function() {
   }
   else
   {
-    ChatBot.postMessage(msgData);
+    ChatBot.postMessage(msgData,function(error,result){});
     $("#sendMsgInput").val("");
   }
 });
@@ -180,8 +195,7 @@ function log(logData)
 }
 
 
-setInterval(function() {
-  getParticipants() // method to be executed;
-}, 5000);
+// setInterval(function() {
+//   getParticipants() // method to be executed;
+// }, 5000);
 
-getParticipants();
